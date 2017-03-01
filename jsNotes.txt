@@ -1,0 +1,906 @@
+浏览器组成：1.shell部分
+			2.内核部分：渲染引擎（语法规则和渲染）
+			js引擎
+			其他模块
+
+谷歌V8 js引擎把js代码直接转化为机械码来执行
+
+JavaScript
+
+编程语言
+
+编译器：
+1.编译 Java c c++（静态语言）
+	优点：速度快
+	缺点：可移植性差
+2.解释 javascript（动态语言）
+	优点：跨平台不需要编译成文件，只需要一个环境就可运行
+	缺点：速度慢
+
+单线程；一个时间点只能执行一个任务
+		时间片轮转：js执行主线程
+		内核除了js引擎的另外几个部分把任务分解成小块，把每个任务块分配一个时间送进主线程里，由于分配分时间小，所以视觉上看起来是一起执行，实际一个时间段只有一个任务块在执行。
+ECMA标准：
+
+js三大部分：ECMAScript（没有兼容性问题）、DOM、BOM
+
+引入js: 页面内嵌<script type="text/javascript"></script>标签
+		外部js文件引入<script type="text/javascript" src="demo.js"></script>
+js代码加载完成会阻塞后续的代码执行，也能终止css代码加载，等到js加载完成之后，原来在加载的其他代码才会继续执行
+js代码可以写在<head></head> <body></body>标签中，写在哪在哪加载执行。
+<script></script>操作DOM写在下面
+<script></script>一旦引入外部文件，里面的代码都不会执行。
+严格符合web标准（w3c标准中的一项）结构、样式、行为相分离，通常会采用外部引入。
+
+
+
+js基本语法：
+	变量（variable）
+		变量声明
+			声明、赋值、分解
+			单一var声明法则：
+			var abc = 123, bcd = 234;
+		命名规则：
+			变量名必须以英文字母、_、$开头
+			变量名可以包括英文字母、_、$、数字
+			不可以用系统的关键字、保留字作为变量名
+ 
+值类型
+	不可改变的原始值（栈数据）
+	Number String Boolean Undefined null
+	引用值（堆数据）
+	array object function  
+
+	
+	原始值一般存在栈里，栈里的数据不可改变。赋值的时候新开辟空间。
+
+	arr2 = arr1
+	引用值赋值是把arr1地址给了arr2。
+		eg：var str = "abcd";
+			str.length = 2;
+			document.write(str);
+			结果：abcd	
+ 
+基本规则：分号分割
+		  js逻辑语法错误会引发后续代码终止，但不会影响后面的其他js代码块。
+		  书写规范：=两边都要有空格
+
+
+js运算符:"+" 数学运算，字符串连接
+		 任何数据类型加上字符串都等于字符串
+		 eg： var abc = "a" + 1 + 1; a11
+			  var abc = 1 + 1 + "a" + 1 + 1; 2a11
+			  =优先级最弱 ()优先级最高
+		2/0 = infinity
+ 		0/0 = NaN
+		
+ 		var a = 1;
+		document.write(a++); 1
+		docunment.write(a); 2	
+		document.write(++a);3
+		
+		a += 2 <=> a = a + 2
+
+	交换a,b的值(不用中间变量)
+		var a = 123;
+		var b = 234;
+		a = a + b;
+		b = a - b;
+		a = a - b;
+
+	&&  特点：全对才为对，如果有错的立即反回其运算结果，如果没有错的，就反回最后一个表达式的运算结果。
+	|| 特点：全错才为错，如果有对的，立即反回其运算结果，如果没有对的，就反回最后一个表达式的运算结果。
+	! 特点：变成相反的值。
+
+	boolean中被认定为false的值：undefined,null, NaN,"",0,false
+
+条件语句:
+	if (条件表达式) {
+		执行代码		
+	}
+
+	if () {
+
+	}else{
+		
+	}
+	
+	for (var i = 0; i < 100; i ++) {
+		document.write(i);
+
+	}
+	首先执行第一个语句，条件判断第二个语句，执行里面的代码，最后执行第三个语句。当第二个语句值为false时终止代码，循环结束。
+
+	do {
+
+	} while()
+
+
+
+	switch case
+
+	break
+
+	continue
+
+	eg:	var test = 123;
+		switch(test) {
+			case 123:
+				document.write('123 the same');
+				break;
+				case 234:
+			document.write('234 the same');
+				break;
+			default:
+				document.write('others');
+
+		  }  精准比较
+
+
+	break 跳出循环
+	eg:		var sum = 0;
+		for (var i = 0; i < 100; i ++) {
+			sum += i;
+			if(sum > 100){
+				document.write(i);
+				break;
+			}
+		}
+
+
+	continue 结束本次循环，开启下次循环
+
+	eg：	for(var i = 0; i < 100; i++) {
+				if(i % 5 == 0) {
+					document.write("拍手");
+					continue;
+				}
+				docunment.write(i);
+			}
+
+
+引用值
+数组:var arr = [a,2,e,4,5,'2324dsa','',]
+document.write(arr[0]) --> a
+document.write(arr.length);--> 7
+
+对象：
+	var obj = {
+		name:yb,
+		age:22,
+		height:188;
+
+	}
+typeof() 查看值类型
+数组属于对象类
+用typeof()查看null属于object：历史遗留问题
+function(){}  数据类型还是function
+
+typeof()/typeof ... 能显示的数据类型：string number boolean undefined object function
+
+
+类型转换
+显示类型转换：Numeber();
+			  null->0 undefined->NaN boolean->0/1
+			  ParseInt();
+			  把数字/字符串转换成整型数字， 
+			  123abc123->123 
+			  从第一位开始找，找到不是字符串的数字为止。
+			  ParseInt(    ,基底 )把","前输入的基底(2--36)进制转化为十进制
+			  parseFloat()
+			  把其他类型转换成浮点类型的数
+			  toString()
+			  把其他类型转换成字符串
+			  eg：var num = 123;
+			  	  docunment.write(num.toString);
+			  undefined和null不能调用toString
+			  可以把十进制转换成目标进制
+			  eg：var num = 123;
+			  	  document.write(num.toString(16));-->7b
+			  String()
+			  Boolean()
+隐式类型转换:
+			  isNaN(); is not a number ture/false.
+			  调用number()看结果是不是NaN
+			  ++/--  +/- */% && || ! <> <= >= == !=
+
+			 没有声明的变量只有放在typeof()中可用
+
+			 NaN!=NaN
+
+ \ 转义字符 
+
+ 高内聚 弱耦合：具有相同功能的代码包装在一个代码块里，来减少页面上代码的重复度。
+
+
+函数：
+	函数定义：
+		1.函数声明：
+		function test() {
+			...
+		}
+		test();
+		2.函数表达式：
+		var test = function() {
+			...
+		}
+	函数声明和函数表达式区别:1.函数声明的name属性是有值的
+							   匿名函数表达式name属性是没有值的 ()前可加入name值
+
+	  	function test(num1,num2,num3) {
+
+	  	}
+	  	test(num1,num2,num3);
+		
+		不是必须传参
+		写两个参数可以传两个以上
+
+		在函数内部有一个类数组arguments，接收了所有实际传的参数   ，实参可以大于也可以小于形参。
+		test.length 看形参长度
+	返回值：return 123;终止函数
+
+字符串 var str = "abc";
+		document.write(str.length);
+		document.write(str.charAt(0));-->a
+
+递归
+
+
+作用域：
+ 	变量和函数生效（能被访问）的区域，外面不能访问函数内部的变量 
+ 	
+ 	写在最外层的代码是全局作用域，任何地方都可以访问
+	
+	作用域访问顺序：从里到外
+
+作用域:一些执行期上下文的集合
+	[[scope]]：每个javascript函数都是一个对象，对象中有些属性我们可以访问，但有些不可以，这些属性仅供javascript引擎存取，[[scope]]指的就是我们们所说的作用域，其中存储了执行期上下文的集合 
+作用域链：[[scope]]中所存储的执行期上下文对象的集合，	这个集合呈链式连接，我们把这种链式连接叫做作用域链
+	执行期上下文:函数运行时创建一个称为执行期上下文的内部对象，定义了一个函数运行时的环境，函数每次执行对应的上下文都独一无二，执行完毕，上下文被销毁
+
+
+
+a函数执行时，将a的执行期上下文放到作用域链顶部，把全局的环境下调一个格
+
+查找变量：从作用域链顶端依次向下查找
+
+执行完一个函数，就会把这个函数的执行期上下文释放，再被执行时建立新的执行期上下文。
+
+
+
+闭包:当内部函数被保存到外部时，将会生成闭包。
+	 闭包会导致原有作用域链不释放，造成内存泄漏。
+		
+eg: function test() {
+		var a = 0;
+		function b() {
+			a++;
+			return a;
+		}
+		return b;
+	}
+
+	var demo = test();
+	document.write(demo());
+	document.write(demo());
+	document.write(demo());
+	document.write(demo());
+	-->1234
+     b每次执行时，创建和清除b的执行期上下文，其他b外层没变继续使用
+
+闭包的作用：
+	实现公有变量
+		eg；函数累加器
+			function add() {
+			 var a = 0;
+			 function demo() {
+			 	a++;
+			 	return a;
+			 }
+			 return demo;
+			}
+			var s = add(); 
+
+	可以做缓存
+		eg：eater
+		
+	可以实现封装，属性私有化
+		eg：Person();
+	立即执行函数：函数执行完之后直接被释放
+		作用：进行变量和页面的初始化。
+		  	   
+		(function(){
+			document.write(a);
+		}())
+
+		(function(){
+
+		})()
+
+
+function test(a, b, c) {
+	document.write(arguments[0]);
+	a = 2;
+	document.write(arguments[0]);
+}
+test(1,2);
+
+	a和arguments[0] 有各自的储存空间，js引擎强制让他俩变为一样的值
+	当形参大于实参时，那么多余的部分形参值不随着实参改变而改变
+
+	()只有放在表达式后才执行
+	把函数声明变成表达式：+ - && || ! ()
+
+闭包的防范：闭包会导致多个执行函数公用一个公有变量，如果不是特殊需要，应尽量防止这种情况发生。
+	function demo() {
+		var arr = [];
+		function b() {
+			(function(j) {
+				arr[j] = function(){
+					document.wtite(j);
+				}	
+			}(i))
+		}
+
+	}
+	b();
+	return arr;
+	var arr1 = demo();
+	for(var i = 0, i <10; i++) {
+		arr1[i]();
+	}
+
+
+
+
+
+js运行：
+		1.语法分析：通篇找一些低级错误
+		2.预编译：创建执行期上下文并且为执行期上下文中每个属性添值。
+				1.imply global暗示全局变量：即任何变量如果未经声明就直接使用，此变量就为全局对象所有。
+				在全局范围内无论是否声明变量，都会把这个变量归window所有
+					a = 123;-->window.a = 123;
+					var a = b = 123;
+						
+					function abc() {
+						var a = b = 123; <!-- 赋值运算优先级从右向左 -->
+					}
+				2.一切声明的全局变量，全是window的属性
+		3.解释执行：编译一行，执行一行
+	 
+	预编译(详细)：1.创建AO对象（执行期上下文）
+				  2.找形参和变量声明，将变量和形参名作为AO属性名，值为undifined 
+				  3.将实参和形参统一
+				  4.在函数体里面找函数声明，值赋予函数体
+
+
+				   function fn(a) {
+						var a = 123;
+						 function a() {}
+						var b = function() {}
+						var d = function() {}
+				   }
+				   fn(1);
+				刚预编译后AO的效果：1.变量声明提升
+									2.函数声明整体提升 
+				   AO = {
+						this:window,
+						arguments:[1],
+						a:undifined,->1->function a() {}
+						b:undifined,->function() {}
+						d:undifined,->function() {} 
+				   }
+
+对象：1.描述
+
+	  2.属性的增删改查
+	  
+	  3.对象的创建方法
+			对象字面量（对象直接量）：	
+			  var obj = {
+			  	  name:"yanbing",<!-- 所有的原始值和引用值都可以充当值 -->
+			  	  age:23,
+			  	  height:188,
+			  	  sex:"male"
+			  	  eat:function() {
+			  	  	  this.height++;  <!-- this代表obj -->
+			  	  }
+			  }
+			  obj.eat();
+			  obj.eat();
+			  删除属性:delete this.age
+			构造函数：
+				系统自带：new Object();
+					var obj = new Object();
+					var obj = {};
+					obj.name = "yanb";
+					obj.age = 23;
+					obj.height = 188;
+					obj.eat = function() {}
+				
+
+
+				自定义：
+				<!-- 构造方法 -->
+					function Person() {
+					<!-- 在方法执行时前面如果有new操作符，那这个new操作符就会强制在方法第一行隐式var this = {};如果有显示的var和return，隐式的即使有new也就不走了，如果强制反回原始值，会无视显示的，继续反回this ，强制反回引用值不影响	 
+ -->
+						this.name = "哪吒"
+						this.age = 3;
+						this.traffic = "风火轮"；
+						this.naohai = function() {
+							//...
+						}
+						<!-- 在最后一步return this; -->
+					}
+					var oPerson1 = new Person();
+					var oPerson2 = new Person();
+					oPerson1.name = "jinzha";
+					document.write(oPerson1.name);
+					document.write(oPerson2.name);
+ 					创建对象可以传参
+	
+
+	包装类：系统自带的构造方法
+		 String();
+		 Boolean();
+		 Number();
+		 反回的都是对象
+
+		 var str = "abcd";
+		<!--  在加属性之前会包装 var str1 = new String("abcd");  用完之后包装类销毁
+		 str1.length = 2; -->
+		 str.length = 2;
+		 document.write(str);-->abcd
+
+
+原型：
+	1.定义：原型是function对象的一个属性，它定义了构造函数制造出的对象的公共祖先，通过该构造函数产生的对象，可以继承孩原型的属性和方法，原型也是对象。
+
+	查找对象属性时，如果对象自己有这个属性，就用自己的，如果没有，就用原型的。
+
+	修改子孙对象属性和原型没有关系 
+		Person.prototype = {  //重写prototype把原来的覆盖了
+			constructor:Person, 
+			name:"y",
+			age:22,
+			sex:male,
+			money:[100,100,100],
+			drink:function() {
+				document.write("tu")
+			}
+			sayAge:function () {
+				document.write(this.age)
+			}
+			//初始状态临近于空
+		};
+		<!-- Person.prototype.age = 19;
+		Person.prototype.name = "y";
+ -->
+		function Person() {
+			this.sex = "female";
+			this.age = 12;
+			this.smoke = function () {
+				document.write("cool");
+			}
+			this.sayName = function() {
+				document.write(this.name);
+			}
+		}
+		 var oPerson = new Person();
+	 <!-- 	oPerson.name = "b";//给自己的对象添加属性，原型的属性不变
+		oPerson.money.push[200];//原型中的属性改变，对其他子孙也会造成影响
+		document.write(oPerson.name);y
+		ocument.write(oPerson.sex);female  -->
+		oPerson.sayName();y
+		oPerson.sayAge();12 //谁.function this指向谁
+	
+	2.利用原型特点和概念，可以提取公有属性。
+		 Person.prototype = {
+		 	smoke:function() {
+
+		 	}
+		 }
+		 function Person (name, age, sex) {
+		 	this.name = name;
+		 	this.age = age;
+		 	this.sex = sex;
+		 }
+		 var oPeron = new Person("yb", 12, "male");
+		 var oPerson1 = new Person("sd", 23, "female");
+	
+
+	3.对象如何查看原型-->隐式属性 __proto__
+		oPerson.__proto__;
+
+	4.对象如何查看构造器-->constructor
+		oPerson.connstructor;
+		在原型中存了一个隐式的属性：constructor:Person;
+
+		<!-- Object.prototype  = {
+			constructor:Object
+		} -->
+
+		<!-- function Object() {
+			覆盖系统原生的
+		} -->
+		var obj = new Object();
+ 		var obj1 = {};
+ 		document.write(obj1.constructor);
+		document.write(obj.constructor);
+		空对象的构造器是function Object(){}
+
+原型链：
+	Father.prototype = {
+		firName:"yan",
+		money:[100,100,100];
+		eat:function() {
+			this.height++;
+		}
+		drink:function() {
+			document.write("drinkmore");
+		}
+	}
+	function Father (name, age, sex) {
+		this.name = name;
+		this.age = age;
+		this.sex = sex;
+		this.smoke = function() {
+			document.write('cool');
+		};
+	}
+	function Son (name, age, sex) {
+		this.name = name;
+		this.age = age;
+		this.sex = sex;
+
+	}
+	var oFather = new Father('ymt', 40, 'male');
+
+	Son.prototype = oFather;
+	
+	var oSon = new Son('yb', 20, 'male');
+	
+	document.write(oSon.name);
+	oSon.smoke();
+	oSon.drink();
+	
+	Object.prototype是所有原型链的最顶端
+	Object.prototype.__proto__= null;
+	自己只能删除自己的属性，不能删除父级和原型上的属性
+	
+	绝大多数对象最终都会继承自Object.prototype
+
+	var obj = Object.create();唯一一个方法可以创建出没有原型的对象
+	Objet.create(Object.prototype);<=>new Object
+
+	无论什么值在打印时都会调用原型中的一个隐式的方法.toString();
+
+	call/apply
+		function Person(sex) {
+			this.name = "sunny";
+			this.sex = sex;
+		}
+		var obj = {age:19};
+		Person.call(obj, "male");
+		document.write(obj.name);
+		document.write(obj.sex):
+		第一步先执行Person();
+		call中的第一个参数用来改变Person内部的this指向,第二个参数以后就是正常的参数
+		apply和call第一个参数功能一样，当参数多时apply中传一组参数，必须是一个数组或者类数组。相当于第二个参数是一个实参集合。
+		
+
+继承发展史：
+	1.传统形式
+		不能随便给自己的原型添加属性
+		过多的继承了没用的属性
+		Foo.prototype = {
+			eat:function() {
+				document.write("就知道吃");
+			}
+		};
+		function Foo() {
+			this.smoke = function() {}
+		}
+		function Son(name) {
+			this.name = name;
+		}
+		function inherit(C, P) {
+			C.prototype = new P();
+		}
+		inherit(Son, Foo);
+		var oSon = new Son();
+		oSon.eat();
+			
+	2.借用构造函数
+
+		Foo.prototype = {
+			eat:function() {
+				document.write("就知道吃");
+			}
+		};
+		function Foo() {
+			this.smoke = function() {}
+		}
+		function Son() {
+			Foo.call(this);
+		}
+		var son = new Son();
+
+	3.共享原型
+
+		
+
+	4.圣杯模式
+		function inherit(P, C) {
+			function F() {};
+			F.prototype = P.prototype;
+			C.prototype = new F();
+			C.prototype.constructor = C;
+			C.uber = P.prototype;
+		}
+
+
+		function inherit = (function() {
+			var F = function () {};
+			return function(P, C){}
+				F.prototype = P.prototype;
+				C.prototype = new F();
+				C.prototype.constructor = C;
+				C.uber = P.prototype;
+			}
+		}());
+
+
+
+
+
+
+
+
+
+命名空间：管理变量，防止污染全局变量，利于模块化开发
+	var scope = {
+		model1:{
+			name:"yb"
+		}
+		model2:{
+			name:"haha"
+		}
+	}
+	scope.model1.name
+	scope.model2.name
+
+链式调用模式（模仿jquery）：
+		 	var obj = {
+				eat:function() {
+					document.write("good");
+		 		return this;
+			 	},
+			 	drink:function() {
+			 		document.write("haha");
+			 		return this;
+				},
+				sleep:function() {
+					document.write("0~0");
+					return this;
+					}
+				}
+			obj.eat().drink().sleep();
+查看属性：
+	1.obj.prop
+	2.obj['prop']
+	 在系统内部obj.prop会在系统内部隐式的转换为obj['prop']
+	 第二种效率更快
+
+对象的枚举：
+	var obj = {
+		face:'perfect',
+		smoke:'smoke',
+		eat:'eat',
+		drink:function() {
+			document.write('drink');
+		}
+	}
+	
+	for in 循环
+	 	for(var prop in obj) {
+	 		document.write(obj[prop]);
+
+	 	}
+	 	var prop可以写在外面
+	 		var prop;
+	 		for(prop in obj){
+	 		}
+
+ECMAScript3.0  ECMAScript5.0非严格版本：在枚举对象时会把对象原型中的属性和方法也一起枚举出来（除了object）
+使用hasOwnProperty解决:obj.hasOwnProperty(attributesName);
+	function Person() {
+		this.age = 123;
+	}
+	Person.protptype.name = 'yb';
+
+	var oPerson = new Person();
+	for(var prop in oPerson) {
+		if(oPerson.hasOwnProperty(prop)) {
+			document.write(oPerson[prop]);
+		}
+	}
+
+	in 判断是不是自己的属性（包括原型上的属性）反回boolean类型 
+	document.write('name' in oPerson);
+
+	instanceof:看前面的对象是不是后面的构造器构造出来的，返回boolean
+	obj instanceof Object;
+
+	看前面的对象的原型链，上面有没有后面构造器的prototype形式，只要有，就是这个构造器构造出来的
+
+this：
+	函数预编译过程this指向window
+
+	全局作用域里 this指向window
+		函数不被调用this指向window
+
+	call/apply可以改变函数运行时this指向
+
+	obj.func(); func()里面的this指向obj
+		obj.fun()不代表先取值再执行，表示obj调用func()的方法
+
+		 var name = '222';
+		 var a = {
+		 	name : '111',
+		 	say : function() {
+		 		document.write(this.name);
+		 	}
+		 }
+
+		 var fun = a.say;
+		 fun();
+
+		 a.say();
+		
+		 var b = {
+		 	name : '333',
+		 	say : function (fun) {
+				fun();
+		 	}
+		 }
+		 
+		 b.say(a.say);//取a.say的函数体，不等于a.say()执行
+		 b.say = a.say;
+		 b.say();
+
+		 222111222333
+
+  
+ arguments.callee保存本函数的引用：
+	 	var num = parseInt(window.prompt('input'));
+		
+		var ret = (function (n) {
+			if(n == 1 || n < 1) {
+			return 1;
+
+			}
+			return n * arguments.callee(n - 1);
+		}(num));
+
+		document.write(ret);
+
+func.caller指向调用这个函数的函数的引用:
+
+		function test () {
+			demo();
+		} 
+		function demo () {
+			document.write(demo.caller);
+		}
+		test();
+
+
+克隆：
+	浅层克隆： 
+		function clone (parent, child) {
+			
+			var child = child || {},
+				prop;
+			for (prop in parent) {
+				if(parent.hasOwnProperty(prop)) {
+					child[prop] = parent[prop];
+				}
+			}
+			return child;
+		}
+		Person.prototype.age = 22;
+		function Person () {
+			this.name = "yb";
+			this.money = [100,100,100,200,300];
+		}
+		var oPerson = new Person;
+		var oChild = clone(oPerson);
+		document.write(oChild.name);
+		document.write(oChild.age);
+
+		oChild.name = "cherry";
+		document.write(oPerson.name);
+		oChild.money.push(400);
+		document.write(oPerson.money);-->[100,100,100,200,300,400]
+	深层克隆（包括引用值）	
+	
+
+数组：
+	定义：
+		var arr = new Array();
+		()只添一个值并且是数字时，代表数组的长度（小数时报错）
+		()中添加两个值以上时，代表每一位	
+	
+	数组读和写：
+		读：var arr = [1,2,3,4];
+			document.write(arr[3]);
+			不可溢出读，溢出的部分值为undefined
+		写：var arr = [1,2,3,4];
+			arr[10] = 1;
+			document.write(arr.length);-->11
+			可溢出写
+			稀松数组：数组中间有空余
+	
+	数组常用方法:
+		1.改变原数组
+		  push()向后面添加值
+		  pop()删除数组最后一位
+		  		调用后会把删除的数据反回
+		  shift()往头删
+		  unshift()往头加
+	      reverses()数组反转
+		  splice()切片 会返回截取出来的值
+		  	var arr = [1,2,3,4];
+		  	arr.splice(1,1,2,3,5);-->1,2,3,5,3,4
+		  	arr.splice( 从第几位截取,截取长度是多少,在截取处添加什么值);	
+		  sort()
+		  	 var arr = [1,5,3,6,7,8,4];
+		  	 arr.sort();
+		  	 document.write(arr);
+		  给数组自定义人工排序
+		  	 var arr = [1,5,3,6,7,8,4];
+			 arr.sort(function(a, b){
+				<!-- a,b代表数组中的任意两位数
+				当返回值为负时，前面的数放到前面
+				当返回值为正时，后面的数放到前面 -->
+				<!-- if(a > b){
+					return 1;
+				}else{
+					return -1;
+				} -->
+				return a - b;
+			 });
+			 document.write(arr);
+
+			 'A'-'Z' 'a'-'z'
+			
+			打乱顺序
+			var arr = [1,2,3,4,5,6,7,8];
+			arr.sort(function(a, b) {
+				return Math.random() - 0.5;
+			});
+			document.write(arr);
+		2.不改变原数组
+			concat()连接数组
+			var arr = [1,2,4];
+			var arr1 = [3,4,5];
+			var arr2 = arr.concat(arr1);
+			document.write(arr2); 
+
+			toString();
+
+			join();把数组的每一位用join()中的符号连接起来，反回String形式
+			默认不写为','
+
+			字符串的方法split 
+				str.split(),把字符串以什么形式分割成数组
+		
+
+		Math.random()生成一个0到1之间的随机数
+		Math.floor()向下取整 
+		Math.ceil()向上取整   	
+	Array.prototype.unique = function() {
+		this
+	} 
